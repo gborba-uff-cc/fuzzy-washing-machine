@@ -1,6 +1,6 @@
-# importing from our fuzzify module
+# imports
 from fuzzify import *
-from math import ceil
+from ascii_art import washing_machine_art as art
 
 # washing parameters
 def compute_washing_parameters(type_of_dirt,degree_of_dirt):
@@ -19,5 +19,5 @@ def compute_washing_parameters(type_of_dirt,degree_of_dirt):
 if __name__ == "__main__":
     type_of_dirt = float(input("Enter Type of Dirt [0-100]: "))
     degree_of_dirt = float(input("Enter Degree of Dirtiness [0-100]: "))
-    washing_time = ceil(compute_washing_parameters(type_of_dirt,degree_of_dirt))
-    print(f"Time required to wash is {washing_time} minutes.")
+    washing_time = round(compute_washing_parameters(type_of_dirt,degree_of_dirt),2)
+    print(f"{art}\nTime required to wash is {washing_time} minutes.\n")
