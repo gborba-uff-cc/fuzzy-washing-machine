@@ -4,6 +4,20 @@ A project demonstrating a fuzzy controlled washing machine. The objective is to 
 
 The process is based entirely on the principle of taking non-precise inputs from the sensors, subjecting them to fuzzy arithmetic and obtaining a crisp value of the washing time.
 
+## Fuzzy parameters
+The fuzzy logic checks for the extent of dirt and grease, the amount of soap and water to add, direction of spin, and so on.
+
+No two Fuzzy Logic systems are alike, and brands typically vary the parameters sensed in the washing machine. But generally speaking, the following are usually the variables taken into consideration:
+
+- The weight of the load
+- The type of fabric
+- The amount and temperature of the water
+- The amount of detergent
+- The dirt in the water or rinse needs
+- The type and length of agitation needed
+- The speed and duration of the spin cycle
+
+
 ## Helpful links
 
 - This [article](https://onsitego.com/blog/fuzzy-logic-means-washing-machine/) elaborating fuzzy logic in washing machines.
