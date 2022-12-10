@@ -11,7 +11,7 @@ class washing_machine:
     # [0,1,2,...,100]
     type_of_dirt = ctrl.Antecedent(np.arange(0, 101, 1), "type_of_dirt")
     # [0,1,2,...,100]
-    amount_of_soap = ctrl.Antecedent(np.arange(0, 101, 1), "amount_of_soap")
+    amount_of_detergent = ctrl.Antecedent(np.arange(0, 101, 1), "amount_of_detergent")
     # [0,1,2,...,100]
     amount_of_clothes = ctrl.Antecedent(np.arange(0, 101, 1), "amount_of_clothes")
     # [0,1,2,...,60]
@@ -20,13 +20,13 @@ class washing_machine:
     # keys for plot
     degree_names = ["Low", "High"]
     type_names = ["Light", "Heavy"]
-    soap_names = ["Low", "High"]
+    detergent_names = ["Low", "High"]
     clothes_names = ["Low", "High"]
 
     # Outputing them into auto-membership functions
     degree_of_dirt.automf(names=degree_names)
     type_of_dirt.automf(names=type_names)
-    amount_of_soap.automf(names=soap_names)
+    amount_of_detergent.automf(names=detergent_names)
     amount_of_clothes.automf(names=clothes_names)
 
     # Washing Time Universe
@@ -40,67 +40,67 @@ class washing_machine:
     rules = [
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Light'] &
-            amount_of_soap['Low'] & amount_of_clothes['Low'],
+            amount_of_detergent['Low'] & amount_of_clothes['Low'],
             wash_time['very_short']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Light'] &
-            amount_of_soap['Low'] & amount_of_clothes['High'],
+            amount_of_detergent['Low'] & amount_of_clothes['High'],
             wash_time['very_short']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Light'] &
-            amount_of_soap['High'] & amount_of_clothes['Low'],
+            amount_of_detergent['High'] & amount_of_clothes['Low'],
             wash_time['short']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Light'] &
-            amount_of_soap['High'] & amount_of_clothes['High'],
+            amount_of_detergent['High'] & amount_of_clothes['High'],
             wash_time['short']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Heavy'] &
-            amount_of_soap['Low'] & amount_of_clothes['Low'],
+            amount_of_detergent['Low'] & amount_of_clothes['Low'],
             wash_time['short']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Heavy'] &
-            amount_of_soap['Low'] & amount_of_clothes['High'],
+            amount_of_detergent['Low'] & amount_of_clothes['High'],
             wash_time['medium']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Heavy'] &
-            amount_of_soap['High'] & amount_of_clothes['Low'],
+            amount_of_detergent['High'] & amount_of_clothes['Low'],
             wash_time['medium']),
         ctrl.Rule(
             degree_of_dirt['Low'] & type_of_dirt['Heavy'] &
-            amount_of_soap['High'] & amount_of_clothes['High'],
+            amount_of_detergent['High'] & amount_of_clothes['High'],
             wash_time['medium']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Light'] &
-            amount_of_soap['Low'] & amount_of_clothes['Low'],
+            amount_of_detergent['Low'] & amount_of_clothes['Low'],
             wash_time['medium']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Light'] &
-            amount_of_soap['Low'] & amount_of_clothes['High'],
+            amount_of_detergent['Low'] & amount_of_clothes['High'],
             wash_time['long']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Light'] &
-            amount_of_soap['High'] & amount_of_clothes['Low'],
+            amount_of_detergent['High'] & amount_of_clothes['Low'],
             wash_time['long']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Light'] &
-            amount_of_soap['High'] & amount_of_clothes['High'],
+            amount_of_detergent['High'] & amount_of_clothes['High'],
             wash_time['long']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Heavy'] &
-            amount_of_soap['Low'] & amount_of_clothes['Low'],
+            amount_of_detergent['Low'] & amount_of_clothes['Low'],
             wash_time['long']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Heavy'] &
-            amount_of_soap['Low'] & amount_of_clothes['High'],
+            amount_of_detergent['Low'] & amount_of_clothes['High'],
             wash_time['very_long']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Heavy'] &
-            amount_of_soap['High'] & amount_of_clothes['Low'],
+            amount_of_detergent['High'] & amount_of_clothes['Low'],
             wash_time['very_long']),
         ctrl.Rule(
             degree_of_dirt['High'] & type_of_dirt['Heavy'] &
-            amount_of_soap['High'] & amount_of_clothes['High'],
+            amount_of_detergent['High'] & amount_of_clothes['High'],
             wash_time['very_long']),
     ]
 
@@ -109,11 +109,11 @@ class washing_machine:
     washing = ctrl.ControlSystemSimulation(washing_ctrl)
 
 
-def fuzzify_laundry(fuzz_type, fuzz_degree, soap_amount, clothes_amount):
+def fuzzify_laundry(fuzz_type, fuzz_degree, detergent_amount, clothes_amount):
 
     washing_machine.washing.input["type_of_dirt"] = fuzz_type
     washing_machine.washing.input["degree_of_dirt"] = fuzz_degree
-    washing_machine.washing.input["amount_of_soap"] = soap_amount
+    washing_machine.washing.input["amount_of_detergent"] = detergent_amount
     washing_machine.washing.input["amount_of_clothes"] = clothes_amount
 
     washing_machine.washing.compute()
