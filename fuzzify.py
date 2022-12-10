@@ -6,8 +6,11 @@ import matplotlib.pyplot as plt
 
 class washing_machine:
     # Inputs and Outputs
+    # [0,1,2,...,100]
     degree_of_dirt = ctrl.Antecedent(np.arange(0, 101, 1), "degree_of_dirt")
+    # [0,1,2,...,100]
     type_of_dirt = ctrl.Antecedent(np.arange(0, 101, 1), "type_of_dirt")
+    # [0,1,2,...,60]
     wash_time = ctrl.Consequent(np.arange(0, 61, 1), "wash_time")
 
     # keys for plot
@@ -26,34 +29,29 @@ class washing_machine:
     wash_time["very_long"] = fuzz.trimf(wash_time.universe, [40, 60, 60])
 
     # Rules Applied
-    rule1 = ctrl.Rule(
-        degree_of_dirt["High"] | type_of_dirt["Fat"], wash_time["very_long"]
-    )
-    rule2 = ctrl.Rule(degree_of_dirt["Medium"] | type_of_dirt["Fat"], wash_time["long"])
-    rule3 = ctrl.Rule(degree_of_dirt["Low"] | type_of_dirt["Fat"], wash_time["long"])
-    rule4 = ctrl.Rule(
-        degree_of_dirt["High"] | type_of_dirt["Medium"], wash_time["long"]
-    )
-    rule5 = ctrl.Rule(
-        degree_of_dirt["Medium"] | type_of_dirt["Medium"], wash_time["medium"]
-    )
-    rule6 = ctrl.Rule(
-        degree_of_dirt["Low"] | type_of_dirt["Medium"], wash_time["medium"]
-    )
-    rule7 = ctrl.Rule(
-        degree_of_dirt["High"] | type_of_dirt["NonFat"], wash_time["medium"]
-    )
-    rule8 = ctrl.Rule(
-        degree_of_dirt["Medium"] | type_of_dirt["NonFat"], wash_time["short"]
-    )
-    rule9 = ctrl.Rule(
-        degree_of_dirt["Low"] | type_of_dirt["NonFat"], wash_time["very_short"]
-    )
+    rules = [
+        ctrl.Rule(
+            degree_of_dirt["High"] | type_of_dirt["Fat"], wash_time["very_long"]),
+        ctrl.Rule(
+            degree_of_dirt["Medium"] | type_of_dirt["Fat"], wash_time["long"]),
+        ctrl.Rule(
+            degree_of_dirt["Low"] | type_of_dirt["Fat"], wash_time["long"]),
+        ctrl.Rule(
+            degree_of_dirt["High"] | type_of_dirt["Medium"], wash_time["long"]),
+        ctrl.Rule(
+            degree_of_dirt["Medium"] | type_of_dirt["Medium"], wash_time["medium"]),
+        ctrl.Rule(
+            degree_of_dirt["Low"] | type_of_dirt["Medium"], wash_time["medium"]),
+        ctrl.Rule(
+            degree_of_dirt["High"] | type_of_dirt["NonFat"], wash_time["medium"]),
+        ctrl.Rule(
+            degree_of_dirt["Medium"] | type_of_dirt["NonFat"], wash_time["short"]),
+        ctrl.Rule(
+            degree_of_dirt["Low"] | type_of_dirt["NonFat"], wash_time["very_short"]),
+    ]
 
     # Washing Control Simulation
-    washing_ctrl = ctrl.ControlSystem(
-        [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9]
-    )
+    washing_ctrl = ctrl.ControlSystem(rules)
     washing = ctrl.ControlSystemSimulation(washing_ctrl)
 
 
@@ -64,7 +62,7 @@ def fuzzify_laundry(fuzz_type, fuzz_degree):
 
     washing_machine.washing.compute()
 
-    washing_machine.wash_time.view(sim=washing_machine.washing)
-    plt.show()
+    # washing_machine.wash_time.view(sim=washing_machine.washing)
+    # plt.show()
 
     return washing_machine.washing.output["wash_time"]

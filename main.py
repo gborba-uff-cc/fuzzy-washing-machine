@@ -1,4 +1,6 @@
 # imports
+import random
+import time
 from fuzzify import *
 from ascii_art import washing_machine_art as art
 
@@ -16,7 +18,21 @@ def compute_washing_parameters(type_of_dirt, degree_of_dirt):
 
 
 if __name__ == "__main__":
-    type_of_dirt = float(input("Enter Type of Dirt [0-100]: "))
-    degree_of_dirt = float(input("Enter Degree of Dirtiness [0-100]: "))
-    washing_time = round(compute_washing_parameters(type_of_dirt, degree_of_dirt), 2)
-    print(f"{art}\nTime required to wash is {washing_time} minutes.\n")
+    try:
+        while True:
+            type_of_dirt = random.randint(0,99) + random.random()
+            degree_of_dirt = random.randint(0,99) + random.random()
+            soap_amount = random.randint(0,99) + random.random()
+            print(f'Running with type of dirt {type_of_dirt} and degree of dirt {degree_of_dirt}')
+
+            washing_time = round(compute_washing_parameters(type_of_dirt, degree_of_dirt), 2)
+            print(f"Time required to wash is {washing_time} minutes.\n")
+            for i in range(int(washing_time)):
+                text = f'time to finish washing {int(washing_time)-i}'
+                space = "\x20"
+                print(f'{text:<30}', end='')
+                time.sleep(1)
+                print('\r',end='')
+    except KeyboardInterrupt:
+        pass
+    exit(0)
