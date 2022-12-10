@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
             for i in range(int(washing_time)):
                 if clearCmd:
-                    os.system('cls')
+                    os.system(clearCmd)
                 print(f'The washing machine is {clothes_amount}% full with an amount {soap_amount} of soap, the clothes are {degree_of_dirt} points on degree of dirtiness and the type of dirt being {type_of_dirt}.\n')
                 print(f"Time required to wash all clothes is {washing_time} minutes.\n")
                 if clearCmd:
