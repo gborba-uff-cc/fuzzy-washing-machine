@@ -1,5 +1,6 @@
 # imports
 import random
+import subprocess
 import time
 from fuzzify import *
 from ascii_art import washing_machine_art as art
@@ -23,14 +24,45 @@ def compute_washing_parameters(type_of_dirt, degree_of_dirt, soap_amount, clothe
     return type_fuzzy
 
 
+def ChooseClearCommand():
+    for cmd in ('cls','clear'):
+        try:
+            retcode = subprocess.call(
+                cmd,
+                shell=True,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL)
+            if retcode == 0:
+                return cmd
+        except OSError:
+            pass
+    return ''
+
+
+def WriteScreen(
+    type_of_dirt,
+    degree_of_dirt,
+    soap_amount,
+    clothes_amount,
+    remaining_time
+):
+    print(f'ctrl + c to stop the program\n')
+    print(f'The washing machine is {clothes_amount}% full with an amount of {soap_amount} soap, the clothes are {degree_of_dirt} points on degree of dirtiness and the type of dirt being {type_of_dirt}.\n')
+    print(f"Time required to wash all clothes is {washing_time} minutes.\n")
+    print(art[remaining_time%2])
+    print(end='',flush=True)
+    PrintRemainingTime(remaining_time)
+    return None
+
+def PrintRemainingTime(seconds):
+    text = f'[time until done washing is {seconds}s]'
+    print(f'{text:<35}',end='',flush=True)
+    return None
+
 if __name__ == "__main__":
+    clearCmd = ''#ChooseClearCommand()
     try:
-        clearCmd = ''
-        systemType = platform.system().lower()
-        if systemType == 'windows':
-            clearCmd = 'clear'
-        elif systemType == 'linux':
-            clearCmd = 'cls'
         while True:
             type_of_dirt = round(random.randint(0,99) + random.random(),2)
             degree_of_dirt = round(random.randint(0,99) + random.random(), 2)
@@ -38,16 +70,20 @@ if __name__ == "__main__":
             clothes_amount = round(random.randint(0,99) + random.random(), 2)
             washing_time = round(compute_washing_parameters(type_of_dirt, degree_of_dirt, soap_amount, clothes_amount), 2)
 
+            WriteScreen(type_of_dirt,degree_of_dirt,soap_amount,clothes_amount,0)
             for i in range(int(washing_time)):
+                remaining_time=int(washing_time)-i
                 if clearCmd:
                     os.system(clearCmd)
-                print(f'The washing machine is {clothes_amount}% full with an amount {soap_amount} of soap, the clothes are {degree_of_dirt} points on degree of dirtiness and the type of dirt being {type_of_dirt}.\n')
-                print(f"Time required to wash all clothes is {washing_time} minutes.\n")
-                if clearCmd:
-                    print(art[i%2])
-                text = f'[time until done washing {int(washing_time)-i}s]'
-                print(f'{text:<30}',flush=True)
+                    WriteScreen(type_of_dirt,degree_of_dirt,soap_amount,clothes_amount,remaining_time)
+                else:
+                    print(end='\r')
+                    PrintRemainingTime(remaining_time)
                 time.sleep(1)
+            if clearCmd:
+                os.system(clearCmd)
+            else:
+                print('','-'*40,sep='\n')
     except KeyboardInterrupt:
         pass
     exit(0)
