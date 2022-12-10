@@ -11,9 +11,9 @@ class washing_machine:
     # [0,1,2,...,100]
     type_of_dirt = ctrl.Antecedent(np.arange(0, 101, 1), "type_of_dirt")
     # [0,1,2,...,100]
-    amount_of_soap = ctrl.Antecedent(np.arange(0, 101, 1), "type_of_dirt")
+    amount_of_soap = ctrl.Antecedent(np.arange(0, 101, 1), "amount_of_soap")
     # [0,1,2,...,100]
-    amount_of_clothes = ctrl.Antecedent(np.arange(0, 101, 1), "type_of_dirt")
+    amount_of_clothes = ctrl.Antecedent(np.arange(0, 101, 1), "amount_of_clothes")
     # [0,1,2,...,60]
     wash_time = ctrl.Consequent(np.arange(0, 61, 1), "wash_time")
 
