@@ -61,7 +61,7 @@ def PrintRemainingTime(seconds):
     return None
 
 if __name__ == "__main__":
-    clearCmd = ''#ChooseClearCommand()
+    clearCmd = ChooseClearCommand()
     try:
         while True:
             type_of_dirt = round(random.randint(0,99) + random.random(),2)
